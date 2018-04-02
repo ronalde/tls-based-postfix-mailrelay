@@ -174,13 +174,15 @@ exists. Of course `rsync` could be handy.
 ```
 2500      inet  n       -       n       -       -       smtpd -v
 ```
-3. Of course perform a `postfix reload` afterwards to make postfix aware from the changes.
-4. Tail both log files using `tail -f /var/log/mail.log`.
+3. On both servers perform a `postfix reload` afterwards to make
+   postfix aware from the changes and tail the log files using `tail
+   -f /var/log/mail.log`.
 
 
 ## Reference
 
-* from http://www.postfix.org/postconf.5.html#smtpd_tls_cert_file (or man postconf):
+* from http://www.postfix.org/postconf.5.html#smtpd_tls_cert_file and
+  http://www.postfix.org/TLS_README.html:
 
 To enable a remote SMTP client to verify the Postfix SMTP server
 certificate, the issuing CA certificates must be made available to the
