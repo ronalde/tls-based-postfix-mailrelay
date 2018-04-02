@@ -1,11 +1,13 @@
 # Makefile to prepare secure TLS based SMTP relaying Postfix configuration
 
-This Makefile helps you to generate SSL certificates and postfix configuration
-instructions and files for secure TLS based SMTP relaying.
+This [Makefile](../blob/master/Makefile) helps you to generate SSL
+certificates and postfix configuration instructions and files for
+secure TLS based SMTP relaying.
 
 ## Usage
 
-1. copy `settings.mk.example` to `settings.mk` and edit it:
+1. copy [`settings.mk.example`](../blob/master/settings.mk.example) to
+   `settings.mk` and edit it:
 
 ```bash
 cp settings.mk.example settings.mk
@@ -35,15 +37,16 @@ make clean && make
 
 1. `smtp-client`: the (internal) sending server, assumed
    to have a dynamic external IP address
-2. `smtpd-server`: the (internet connected) relayhost, 
-   assumed to have a static external IP address with a valid PTR reverse DNS record
+2. `smtpd-server`: the (internet connected) relayhost, assumed to have
+   a static external IP address with a valid PTR reverse DNS record
 
 Imagine you have a postfix server which gets a dynamic IP address from
 your ISP. 
 
-Using DDNS or some homegrown script it's perfectly possible to update
-the DNS records for your MX record so that incoming mail is
-handled perfectly, eg.:
+Using DDNS or
+[some homegrown script](https://github.com/ronalde/transip-api-ddns/)
+it's perfectly possible to update the DNS records for your MX record
+so that incoming mail is handled perfectly, eg.:
 
 ```
 ;; dns zone file for example.org domain
@@ -52,23 +55,31 @@ handled perfectly, eg.:
 ;; external IP address for mailhost A record for example.org domain is
 ;; updated by DDNS or homegrown script
 mailhost     in A  1.2.3.4
+;; another host
+mailrelay    in A  1.2.3.5
 ```
 
-The problem is that most ISP don't allow to create reverse PTR records
+The problem is that most ISP's don't allow to create reverse PTR records
 and/or block outgoing SMTP port 25. That makes it virtually
 impossible to use the same host for sending mail using SMTP. 
 
+```
+;; dns reverse zone file at ISP for 8.1.2.0/16 IP range
+100			IN PTR	mailrelay.example.org.
+```
+
+
 To see if your internet connection suffers from this try the following
-(ending the command with `CTRL+C`):
+from a host inside your own network (end the command with `CTRL+C`):
 
 ```bash
 netcat -v mailly.debian.org 25
 ```
 
- NOTE: 
-  you need to have `netcat` (or `nc`) installed; the current MX host
-  for debian.org is used as an example, but any external MX host could
-  be used (use `dig +noall +answer MX example.org +short`).
+> NOTE: 
+>  you need to have `netcat` (or `nc`) installed; the current MX host
+>  for debian.org is used as an example, but any external MX host could
+>  be used (use `dig +noall +answer MX example.org +short`).
 
 
 If the output doesn't resemble something like:
