@@ -2,73 +2,9 @@
 ## Makefile to generate SSL certificates and postfix configuration
 ## instructions and files for secure TLS based SMTP relaying.
 ##
-## Usage:
-## 1. customize settings.mk
-## 2. from a terminal run:
-##  make
-##
-## To start over run:
-##  make clean && make
-##
-## Concepts
-## 1. the (internal) sending server called `smtp-client' is assumed
-##    to have a dynamic external IP address
-## 2. the (internet connected) relayhost called `smtpd-server' is
-##    assumed to have a static external IP address
-
-## from http://www.postfix.org/postconf.5.html#smtpd_tls_cert_file (or man postconf):
-##
-##  To enable a remote SMTP client to verify the Postfix SMTP server
-##  certificate, the issuing CA certificates must be made available to
-##  the client. You should include the required certificates in the
-##  server certificate file, the server certificate first, then the
-##  issuing CA(s) (bottom-up order). Example: the certificate for
-##  "server.example.com" was issued by "intermediate CA" which itself
-##  has a certificate of "root CA". Create the (fullchain) server.pem
-##  file with:
-##   `cat server_cert.pem intermediate_CA.pem root_CA.pem > server.pem".
-##  .
-##  If you also want to verify client certificates issued by these CAs,
-##  you can add the CA certificates to the smtpd_tls_CAfile, in which
-##  case it is not necessary to have them in the smtpd_tls_cert_file or
-##  smtpd_tls_dcert_file.
-##  .
-##  A certificate supplied here must be usable as an SSL server
-##  certificate and hence pass the
-##   `openssl verify -purpose sslserver ...' test.
-##
-## This script uses the smtpd_tls_CAfile so no fullchain server
-## certificate is required
-
-## smtpd_tls_security_level (default: empty):
-##  The SMTP TLS security level for the Postfix SMTP server; when a
-##  non-empty value is specified, this overrides the obsolete
-##  parameters `smtpd_use_tls' and `smtpd_enforce_tls'. This parameter is
-##  ignored with "smtpd_tls_wrappermode = yes".
-##  Specify one of the following security levels:
-##  none:    TLS will not be used.
-##  may:     Opportunistic TLS: announce STARTTLS support to remote SMTP
-##           clients, but do not require that clients use TLS
-##           encryption.
-##  encrypt: Mandatory TLS encryption: announce STARTTLS support to
-##           remote SMTP clients, and require that clients use TLS
-##           encryption. According to RFC 2487 this MUST NOT be
-##           applied in case of a publicly-referenced SMTP
-##           server. Instead, this option should be used only on
-##           dedicated servers.
-##  Note 1:  The "fingerprint", "verify" and "secure" levels are not
-##           supported here. The Postfix SMTP server logs a warning and
-##           uses "encrypt" instead. To verify remote SMTP client
-##           certificates, see TLS_README for a discussion of the
-##           smtpd_tls_ask_ccert, smtpd_tls_req_ccert, and
-##           permit_tls_clientcerts features.
-## Note 2:   The parameter setting "smtpd_tls_security_level = encrypt"
-##           implies "smtpd_tls_auth_only = yes".
-## Note 3:   When invoked via "sendmail -bs", Postfix will never offer
-##           STARTTLS due to insufficient privileges to access the
-##           server private key. This is intended behavior.
-## This feature is available in Postfix 2.3 and later.
-
+## See README.md and github repository for instructions and concepts: 
+## https://github.com/ronalde/tls-based-postfix-mailrelay/
+## 
 app_name			:= postfix-tls-based-relaying
 app_remote_root			:= /etc/${app_name}
 ## set in settings.mk
