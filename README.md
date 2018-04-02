@@ -1,6 +1,7 @@
-# Makefile to generate SSL certificates and postfix configuration
-# instructions and files for secure TLS based SMTP relaying.
+# Makefile to prepare secure TLS based SMTP relaying Postfix configuration
 
+This Makefile helps you to generate SSL certificates and postfix configuration
+instructions and files for secure TLS based SMTP relaying.
 
 ## Usage
 
