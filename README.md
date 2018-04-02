@@ -1,12 +1,12 @@
 # Makefile to prepare secure TLS based SMTP relaying Postfix configuration
 
-This [Makefile](../blob/master/Makefile) helps you to generate SSL
+This [Makefile](/blob/master/Makefile) helps you to generate SSL
 certificates and postfix configuration instructions and files for
 secure TLS based SMTP relaying.
 
 ## Usage
 
-1. copy [`settings.mk.example`](../blob/master/settings.mk.example) to
+1. copy [`settings.mk.example`](/blob/master/settings.mk.example) to
    `settings.mk` and edit it:
 
 ```bash
