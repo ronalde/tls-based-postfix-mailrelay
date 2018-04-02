@@ -24,7 +24,7 @@ smtpd_server_port		:= 2500
 smtpd_server_relay_clientcerts_in := /etc/postfix/relay_clientcerts
 smtpd_server_tls_loglevel	:= 1
 
-certs_passphrase_file		:= ${HOME}/.${smtpd_server_hostname}-${smtp_client_hostname}-passphrase.gpg
+certs_passphrase_file		:=  ${HOME}/.${smtpd_server_hostname}-${smtp_client_hostname}-passphrase.gpg
 certs_virt_root			:= /etc/transip-ssl
 certs_root_dir			:= certs
 certs_ca_dir			:= ${certs_root_dir}/ca
