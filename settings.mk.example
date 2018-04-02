@@ -1,0 +1,37 @@
+days	   			:= 700
+ca_key_bits			:= 4096
+ca_key_cipher			:= des3
+csr_digest  			:= sha256
+signature_hash			:= md5
+
+domain	   			:= example.org
+smtp_client_hostname  		:= mailhost
+smtpd_server_hostname 		:= relayhost
+cert_req_country		:= NL
+cert_req_state			:= Noord-Brabant
+cert_req_locality		:= Oss
+cert_req_organization		:= Example Inc.
+cert_req_ou			:= IT Department
+ca_cert_req_cn			:= ${domain}
+
+smtp_client_fqdn		:= ${smtp_client_hostname}.${domain}
+smtp_client_ssh_user		:= root
+smtp_client_tls_loglevel	:= 1
+
+smtpd_server_fqdn		:= ${smtpd_server_hostname}.${domain}
+smtpd_server_ssh_user		:= root
+smtpd_server_port		:= 2500
+smtpd_server_relay_clientcerts_in := /etc/postfix/relay_clientcerts
+smtpd_server_tls_loglevel	:= 1
+
+certs_passphrase_file		:= ${HOME}/.${smtpd_server_hostname}-${smtp_client_hostname}-passphrase.gpg
+certs_virt_root			:= /etc/transip-ssl
+certs_root_dir			:= certs
+certs_ca_dir			:= ${certs_root_dir}/ca
+certs_smtp_client_dir		:= ${certs_root_dir}/smtp-client
+certs_smtpd_server_dir		:= ${certs_root_dir}/smtpd-server
+
+ca_name	   			:= ${domain}-ca
+ca_privatekey  			:= ${certs_ca_dir}/${ca_name}.key.pem
+ca_certificate 			:= ${certs_ca_dir}/${ca_name}.cert.pem
+
